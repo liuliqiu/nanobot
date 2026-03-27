@@ -509,8 +509,7 @@ class AgentLoop:
             if (
                 drop_runtime
                 and block.get("type") == "text"
-                and isinstance(block.get("text"), str)
-                and block["text"].startswith(ContextBuilder._RUNTIME_CONTEXT_TAG)
+                and ContextBuilder.is_runtime_context(block.get("text"))
             ):
                 continue
 
@@ -549,7 +548,7 @@ class AgentLoop:
                         continue
                     entry["content"] = filtered
             elif role == "user":
-                if isinstance(content, str) and content.startswith(ContextBuilder._RUNTIME_CONTEXT_TAG):
+                if ContextBuilder.is_runtime_context(content):
                     # Strip the runtime-context prefix, keep only the user text.
                     parts = content.split("\n\n", 1)
                     if len(parts) > 1 and parts[1].strip():

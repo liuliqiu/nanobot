@@ -110,6 +110,10 @@ IMPORTANT: To send files (images, documents, audio, video) to the user, you MUST
             lines += [f"Channel: {channel}", f"Chat ID: {chat_id}"]
         return ContextBuilder._RUNTIME_CONTEXT_TAG + "\n" + "\n".join(lines)
 
+    @classmethod
+    def is_runtime_context(cls, content: str|None):
+        return isinstance(content, str) and content.startswith(cls._RUNTIME_CONTEXT_TAG)
+
     def _load_bootstrap_files(self) -> str:
         """Load all bootstrap files from workspace."""
         parts = []
